@@ -59,9 +59,9 @@ Home page
                 <p>About the payment:</p>
                 {% for payment in customer.payment_lists %}
                 <div class="d-flex">
-                  <div class='px-2 pb-2'>Type: {{ payment.payment_type }}</div>
-                  <div class='px-2 pb-2'>Reference: {{ payment.reference }}</div>
-                  <div class='px-2 pb-2'>Amount: {{ payment.amount_sum }}</div>
+                  <div class='px-2 pb-2'>Type: {{ payment.payment_type|floatformat:"2" }}</div>
+                  <div class='px-2 pb-2'>Reference: {{ payment.reference|floatformat:"2" }}</div>
+                  <div class='px-2 pb-2'>Amount: {{ payment.amount_sum|floatformat:"2" }}</div>
                 </div>
                 {% endfor %}
               </div>

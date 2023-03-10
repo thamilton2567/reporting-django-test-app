@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Business, Job, Invoice
 from django.db.models import Sum, Exists, OuterRef
 from .forms import FilterForm
+from django.contrib import messages
 
 # Create your views here.
 def index(request):
@@ -21,6 +22,8 @@ def index(request):
       max = MyDataForm.cleaned_data['max']
       if max > min:
         customers = customers.filter(total_job_line_item_amount_remaining_to_be_invoiced__gt=min, total_job_line_item_amount_remaining_to_be_invoiced__lt=max)
+      else:
+        messages.warning(request, 'Maximum value should be greater than minimum value')
   
   for customer in customers:
     customer_all_invoiced_items = Invoice.objects.filter(lineitem__self_item__job__business=customer).distinct()

@@ -5,24 +5,24 @@ Home page
 {% endblock title %}
 
 {% block content %}
-  <table class="table">
-    <form name="filterForm" action="{% url 'index' %}" method="POST">
-      {% csrf_token %}
-      <p>Filter by total job line item amount remaining to be invoiced</p>
-      <div class="row g-3 align-items-end">
-        <div class="col-auto">
-          <label for="minimumValue" class="col-form-label">Min</label>
-          <input type="number" class="form-control" id="minimumValue" name="min" min="0">
-        </div>
-        <div class="col-auto">
-          <label for="maximumValue" class="col-form-label">Max</label>
-          <input type="number" class="form-control" id="maximumValue" name="max" min="0">
-        </div>
-        <div class="col-auto">
-          <button type="submit" class="btn btn-primary">Search</button>
-        </div>
+  <form name="filterForm" action="{% url 'index' %}" method="POST">
+    {% csrf_token %}
+    <p>Filter by total job line item amount remaining to be invoiced</p>
+    <div class="row g-3 align-items-end">
+      <div class="col-auto">
+        <label for="minimumValue" class="col-form-label">Min</label>
+        <input type="number" class="form-control" id="minimumValue" name="min" min="0">
       </div>
-    </form>
+      <div class="col-auto">
+        <label for="maximumValue" class="col-form-label">Max</label>
+        <input type="number" class="form-control" id="maximumValue" name="max" min="0">
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+    </div>
+  </form>
+  <table class="table">
     <thead class="thead-dark">
         <tr>
             <th scope="col">#</th>
@@ -37,9 +37,9 @@ Home page
         <tr>
           <th scope="row">{{ forloop.counter }}</th>
           <td>{{ customer.name }}</td>
-          <td>{% if customer.total_job_line_item_amount == none %} 0.00 {% else %} {{ customer.total_job_line_item_amount|floatformat:"2" }} {% endif %}</td>
-          <td>{% if customer.total_job_line_item_amount_remaining_to_be_invoiced == none %} 0.00 {% else %} {{ customer.total_job_line_item_amount_remaining_to_be_invoiced|floatformat:"2" }} {% endif %}</td>
-          <td>{% if customer.total_invoice_line_item_amount == none %} 0.00 {% else %} {{ customer.total_invoice_line_item_amount|floatformat:"2" }} {% endif %}</td>
+          <td>{{ customer.total_job_line_item_amount|floatformat:"2" }}</td>
+          <td>{{ customer.total_job_line_item_amount_remaining_to_be_invoiced|floatformat:"2" }}</td>
+          <td>{{ customer.total_invoice_line_item_amount|floatformat:"2" }}</td>
         </tr>
       {% endfor %}
     </tbody>

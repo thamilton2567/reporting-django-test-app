@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Home page
+{% endblock title %}
+
+{% block content %}
+  <table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Business Name</th>
+            <th scope="col">Total job line item amount</th>
+            <th scope="col">Total job line item amount remaining to be invoiced</th>
+            <th scope="col">Total invoice line item amount</th>
+        </tr>
+    </thead>
+    <tbody>
+      {% for customer in customers %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>{{ customer.name }}</td>
+          <td>{% if customer.total_job_line_item_amount == none %} 0.00 {% else %} {{ customer.total_job_line_item_amount|floatformat:"2" }} {% endif %}</td>
+          <td>{% if customer.total_job_line_item_amount_remaining_to_be_invoiced == none %} 0.00 {% else %} {{ customer.total_job_line_item_amount_remaining_to_be_invoiced|floatformat:"2" }} {% endif %}</td>
+          <td>{% if customer.total_invoice_line_item_amount == none %} 0.00 {% else %} {{ customer.total_invoice_line_item_amount|floatformat:"2" }} {% endif %}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  <table>
+{% endblock content %}

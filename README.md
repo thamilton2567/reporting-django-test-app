@@ -8,6 +8,8 @@ This is a small Django application which contains models for a basic job account
 ```sh
 script/setup # Install dependencies, running migrations
 python manage.py seed # Generate mock data
+make # Install dependencies with yarn package
+# if you use windows, run `make -f Makefile_windows` instead of `make`
 ```
 
 # Runnin the Server

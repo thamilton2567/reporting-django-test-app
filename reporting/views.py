@@ -20,10 +20,10 @@ def index(request):
     if MyDataForm.is_valid():
       min = MyDataForm.cleaned_data['min']
       max = MyDataForm.cleaned_data['max']
-      if max > min:
-        customers = customers.filter(total_job_line_item_amount_remaining_to_be_invoiced__gt=min, total_job_line_item_amount_remaining_to_be_invoiced__lt=max)
+      if max >= min:
+        customers = customers.filter(total_job_line_item_amount_remaining_to_be_invoiced__range=(min, max))
       else:
-        messages.warning(request, 'Maximum value should be greater than minimum value')
+        messages.warning(request, 'Maximum value should be equal or greater than minimum value')
   
   for customer in customers:
     customer_all_invoiced_items = Invoice.objects.filter(lineitem__self_item__job__business=customer).distinct()

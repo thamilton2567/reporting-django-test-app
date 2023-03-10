@@ -73,4 +73,13 @@ Home page
       {% endfor %}
     </tbody>
   <table>
+
+  {% block js %}
+  <script>
+    if ( window.history.replaceState ) {
+      window.history.replaceState( null, null, window.location.href );
+    }
+  </script>
+  {% endblock %}
+
 {% endblock content %}

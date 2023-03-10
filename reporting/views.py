@@ -12,6 +12,16 @@ def index(request):
               .annotate(total_invoice_line_item_amount=Sum("invoices__lineitem__amount")) \
               .order_by('-total_job_line_item_amount_remaining_to_be_invoiced', 'name')
               
+  if request.method == "POST":
+      #Get the posted form
+      MyDataForm = FilterForm(request.POST)
+      
+      if MyDataForm.is_valid():
+        min = MyDataForm.cleaned_data['min']
+        max = MyDataForm.cleaned_data['max']
+        if max > min:
+          customers = customers.filter(total_job_line_item_amount_remaining_to_be_invoiced__gt=min, total_job_line_item_amount_remaining_to_be_invoiced__lt=max)
+  
   context = {
     "customers": customers
   }

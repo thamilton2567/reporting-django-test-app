@@ -6,6 +6,23 @@ Home page
 
 {% block content %}
   <table class="table">
+    <form name="filterForm" action="{% url 'index' %}" method="POST">
+      {% csrf_token %}
+      <p>Filter by total job line item amount remaining to be invoiced</p>
+      <div class="row g-3 align-items-end">
+        <div class="col-auto">
+          <label for="minimumValue" class="col-form-label">Min</label>
+          <input type="number" class="form-control" id="minimumValue" name="min" min="0">
+        </div>
+        <div class="col-auto">
+          <label for="maximumValue" class="col-form-label">Max</label>
+          <input type="number" class="form-control" id="maximumValue" name="max" min="0">
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+      </div>
+    </form>
     <thead class="thead-dark">
         <tr>
             <th scope="col">#</th>

@@ -20,7 +20,9 @@ class Invoice(models.Model):
         (DRAFT, 'Draft'),
     ]
 
-    business = models.ForeignKey('Business', on_delete=models.CASCADE)
+    business = models.ForeignKey(
+        'Business', on_delete=models.CASCADE, db_column="business", related_name='invoices'
+    )
     number = models.CharField(max_length=255)
     due_date = models.DateTimeField()
     status = models.CharField(
@@ -30,19 +32,24 @@ class Invoice(models.Model):
 
 
 class Job(models.Model):
-    business = models.ForeignKey('Business', on_delete=models.RESTRICT)
+    business = models.ForeignKey(
+        'Business', on_delete=models.RESTRICT, db_column="business", related_name="jobs"
+    )
     name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
 class LineItem(models.Model):
-    job = models.ForeignKey('Job', on_delete=models.RESTRICT, null=True)
+    job = models.ForeignKey(
+        'Job', on_delete=models.RESTRICT, null=True, db_column='job', related_name='lineitem'
+    )
     invoice = models.ForeignKey(
-        'Invoice', on_delete=models.RESTRICT, null=True)
+        'Invoice', on_delete=models.RESTRICT, null=True, db_column='invoice', related_name='lineitem')
     payment = models.ForeignKey(
         'Payment', on_delete=models.RESTRICT, null=True)
-    self_item = models.ForeignKey('self', on_delete=models.RESTRICT, null=True)
+    self_item = models.ForeignKey(
+        'self', on_delete=models.RESTRICT, null=True, db_column='self_item', related_name='invoiceditem')
     amount = models.DecimalField(max_digits=20, decimal_places=2)
     description = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -1,0 +1,7 @@
+all:
+	yarnpkg
+	copy node_modules\bootstrap\dist\css\bootstrap.min.css reporting\static\css\.
+	copy node_modules\bootstrap\dist\css\bootstrap.min.css.map reporting\static\css\.
+	copy node_modules\bootstrap\dist\js\bootstrap.min.js reporting\static\js\.
+	copy node_modules\bootstrap\dist\js\bootstrap.min.js.map reporting\static\js\.
+	rmdir /s /q node_modules\

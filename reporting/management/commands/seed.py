@@ -4,6 +4,7 @@ from itertools import groupby
 from progress.bar import Bar
 from random import choice, randrange, sample, uniform
 from reporting.models import *
+import datetime
 import pytz
 
 
@@ -44,7 +45,7 @@ class Command(BaseCommand):
         invoice.save()
 
         invoice_line_items_with_nones = [self.seed_invoice_line_item(
-            jobs, invoice) in range(randrange(100))]
+            jobs, invoice) for i in range(randrange(100))]
         invoice_line_items = [
             x for x in invoice_line_items_with_nones if x != None]
         items_to_be_paid = sample(
@@ -71,11 +72,12 @@ class Command(BaseCommand):
     def pay_line_items(self, customer, items_to_be_paid):
         def keyfunc(x): return x.invoice
         for invoice, invoice_line_items in groupby(items_to_be_paid, keyfunc):
+            invoice_line_items = list(invoice_line_items)
             payment_type = choice(
                 [Payment.CHECK, Payment.DEBIT_CARD, Payment.CREDIT_CARD])
             amount = sum([x.amount for x in invoice_line_items])
             initiated_date = pytz.utc.localize(
-                self.fake.date_time_this_year(after_today=True))
+                self.fake.date_time_this_year(after_now=True))
             completed_date = initiated_date + datetime.timedelta(days=7)
             payment = Payment(payer=customer,
                               payee=invoice.business,
